@@ -60,8 +60,11 @@ public class Model {
     @Override
     public String toString() {
         StringBuilder buffer = new StringBuilder();
-        getCars().forEach((car) -> buffer.append(car.toString() + ", "));
-        buffer.setLength(buffer.length() - 2);
-        return String.format("Model[ID: %d, Name: %s -> (%s)]", getID(), getName(), buffer.toString());
+        if(cars == null) buffer.append("Empty");
+        else {
+            getCars().forEach((car) -> buffer.append(car.toString() + ",\n\t\t"));
+            buffer.setLength(buffer.length() - 4);
+        }
+        return String.format("Model[ID: %d, Name: %s -> (\n\t\t%s\n)]", getID(), getName(), buffer.toString());
     }
 }
