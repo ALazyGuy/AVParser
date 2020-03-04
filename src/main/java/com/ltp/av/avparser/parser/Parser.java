@@ -43,6 +43,7 @@ public class Parser {
                 Car c = new Car();
                 c.setModel(m);
                 c.setComments(article.getElementsByClass("listing-item-message-in").text());
+                if(c.getComments().length() >= 255) c.setComments(c.getComments().substring(0, 252) + "...");
                 String[] arr = article.parent().getElementsByClass("listing-item-desc").text().split(" ");
                 c.setMileage((int)(Double.parseDouble(arr[arr.length - 2]) * (arr[arr.length - 1].equals("км") ? 1 : 1.609344)));
                 c.setCost(Integer.parseInt(article.parent().getElementsByClass("listing-item-price")
