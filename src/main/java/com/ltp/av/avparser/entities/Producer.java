@@ -50,8 +50,11 @@ public class Producer {
     @Override
     public String toString() {
         StringBuilder buffer = new StringBuilder();
-        getModels().forEach((model) -> buffer.append(model.toString() + ", "));
-        buffer.setLength(buffer.length() - 2);
-        return String.format("Producer[ID: %d, Name: %s -> (%s)]", getID(), getName(), buffer.toString());
+        if(models == null) buffer.append("Empty");
+        else {
+            getModels().forEach((model) -> buffer.append(model.toString() + ",\n\t"));
+            buffer.setLength(buffer.length() - 3);
+        }
+        return String.format("Producer[ID: %d, Name: %s -> (\n\t%s\n)]", getID(), getName(), buffer.toString());
     }
 }
