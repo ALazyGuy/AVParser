@@ -44,11 +44,13 @@ public class Parser {
                 Car c = new Car();
                 c.setModel(m);
                 c.setComments(article.getElementsByClass("listing-item-message-in").text());
-                if (c.getComments().length() >= MAX_VARCHAR_LENGTH)
+                if (c.getComments().length() >= MAX_VARCHAR_LENGTH) {
                     c.setComments(c.getComments().substring(0, MAX_VARCHAR_LENGTH - 3) + "...");
+                }
                 String[] arr = article.parent().getElementsByClass("listing-item-desc").text().split(" ");
-
-                c.setMileage(converter.milesToKilometers(Double.parseDouble(arr[arr.length - 2]), arr[arr.length - 1].equals(KILOMETERS_LOCALE_RU)));
+                boolean isKilometers = arr[arr.length - 1].equals(KILOMETERS_LOCALE_RU);
+                double range = Double.parseDouble(arr[arr.length - 2]);
+                c.setMileage(isKilometers ? (int) range : converter.milesToKilometers(range));
                 Elements itemPrice = article.parent().getElementsByClass("listing-item-price");
                 c.setCost(Integer.parseInt(itemPrice.text().substring(5, itemPrice.text().indexOf('р')).replaceAll("\\s+", "")));
                 try {

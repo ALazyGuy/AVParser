@@ -7,9 +7,8 @@ public class Converter {
 
     private final double MULTIPLIER = 1.609344;
 
-    public int milesToKilometers(double miles, boolean isKilometers)
+    public int milesToKilometers(double miles)
     {
-        if(isKilometers) return (int)miles;
         return (int)(miles * MULTIPLIER);
     }
 }
