@@ -1,17 +1,16 @@
-package com.ltp.av.avparser;
+package com.ltp.av.avparser.controllers;
 
 import com.ltp.av.avparser.entities.Producer;
-import com.ltp.av.avparser.entities.ProducerRepository;
 import com.ltp.av.avparser.parser.Parser;
+import com.ltp.av.avparser.repositories.ProducerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 
-@Controller
+@RestController
 public class ShowController {
 
     @Autowired
@@ -21,8 +20,7 @@ public class ShowController {
     private Parser parser;
 
     @GetMapping("/show")
-    public @ResponseBody
-    String test(@RequestParam String type) throws IOException {
+    public String test(@RequestParam String type) throws IOException {
         if (type.toLowerCase().trim().equals("all")) {
             StringBuilder buffer = new StringBuilder();
             for (Producer p : producerRepository.findAll()) {
@@ -34,8 +32,7 @@ public class ShowController {
     }
 
     @GetMapping("/add")
-    public @ResponseBody
-    String addEntity() {
+    public String addEntity() {
         parser.loadProducers().forEach((producer -> producerRepository.save(producer)));
         return "Done";
     }

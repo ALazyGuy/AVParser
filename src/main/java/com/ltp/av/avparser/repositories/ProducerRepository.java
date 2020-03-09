@@ -1,5 +1,6 @@
-package com.ltp.av.avparser.entities;
+package com.ltp.av.avparser.repositories;
 
+import com.ltp.av.avparser.entities.Producer;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
