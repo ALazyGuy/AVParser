@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.regex.Pattern;
 
 @Component
 public class Parser {
@@ -25,13 +24,15 @@ public class Parser {
     @Autowired
     private Converter converter;
 
-    private final String PRODUCERS_URL = "https://av.by/";
+    private static final String PRODUCERS_URL = "https://av.by/";
 
-    private static Logger log = LoggerFactory.getLogger(Parser.class);
+    private static final Logger log = LoggerFactory.getLogger(Parser.class);
+
+    private static final int MAX_VARCHAR_LENGTH = 255;
+
+    private static final String KILOMETERS_LOCALE_RU = "км";
 
     private static Date date;
-
-    private final int MAX_VARCHAR_LENGTH = 255;
 
     private List<Car> loadCars(String carsUrl, Model m) {
         List<Car> result = new ArrayList<>();
@@ -47,7 +48,7 @@ public class Parser {
                     c.setComments(c.getComments().substring(0, MAX_VARCHAR_LENGTH - 3) + "...");
                 String[] arr = article.parent().getElementsByClass("listing-item-desc").text().split(" ");
 
-                c.setMileage(converter.milesToKilometers(Double.parseDouble(arr[arr.length - 2]), arr[arr.length - 1].equals("км")));
+                c.setMileage(converter.milesToKilometers(Double.parseDouble(arr[arr.length - 2]), arr[arr.length - 1].equals(KILOMETERS_LOCALE_RU)));
                 Elements itemPrice = article.parent().getElementsByClass("listing-item-price");
                 c.setCost(Integer.parseInt(itemPrice.text().substring(5, itemPrice.text().indexOf('р')).replaceAll("\\s+", "")));
                 try {
